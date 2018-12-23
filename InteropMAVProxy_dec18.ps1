@@ -1,4 +1,4 @@
-﻿<#
+<#
 MAVProxy Telemetry Setup
 
 This script changes the directory to the appropriate directory, and then takes an input MAVLink stream and sends it out
