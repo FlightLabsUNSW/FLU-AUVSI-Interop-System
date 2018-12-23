@@ -1,4 +1,4 @@
-﻿<#
+<#
 AUVSI SUAS Interoperability Client 2019 - Telemetry Upload
 
 These lines of code are to be run in Ubuntu 18.04, and will automatically convert a MAVLink telemetry
