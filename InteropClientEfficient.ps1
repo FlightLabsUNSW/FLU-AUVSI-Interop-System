@@ -1,0 +1,145 @@
+<# 
+AUVSI SUAS Interoperability Client System 2019 (Windows PowerShell)
+
+This code is desgined to be run on Windows OS using Windows PowerShell (or ISE) for interaction
+with the AUVSI SUAS Interop System, including logging in, the download of mission and obstacle details,
+uploading of JSON and JPG files, continuous probing of a local directory for JSON or JPG files, and
+upload telemetry data from the PixHawk continuously (MavProxy Integration).
+
+NOTE: Any downloaded files should be opened with Notepad for ease of reading
+NOTE 2: This was designed for the 2019 version of the competition, and may have changed since this implementation!
+NOTE 3: If doing any local testing - be sure to run the InteropServer.ps1 file before running this script to get the judging system running.
+
+#>
+
+    # Initialise the required parameters that are used throughout the code - easier changes for IP/file location changes
+$md = 'C:\Users\marco\MissionStuff' ##### Arbitrary folder for mission stuff
+$pd = 'C:\Users\marco\PlaneData'    ##### Folder where the data from the plane is receieved
+$usbact = 'C:\Users\marco\usb1'     ##### Change this location to the 'actionable' USB provided by judges
+$usbnonact = 'C:\Users\marco\usb2'  ##### Change this location to the 'non-actionable' USB
+$archive = 'C:\Users\marco\archive' ##### Make sure there's an appropriate folder directory for this to go into - local backup
+$url = 'http://192.168.1.10:8010'   ##### DOUBLE CHECK THIS WHEN USING NON-STATIC IP ADDRESS OR DIFFERENT ROUTER/MACHINE
+$filter = "*.*"                     ##### Sets a filter for specific files (not necessary to change from a "wild")
+  
+    # Set up the file to send to the server (general authentication)
+$body = @{
+
+    "username"="testuser"           ##### Change username #####
+    "password"="testpass"           ##### Change password #####
+
+} | ConvertTo-Json # Converts to object file from default (server only accepts JSON for login)
+
+    # Send a JSON web request to the login page and create a session variable (effectively the cookie information)
+Invoke-RestMethod -Uri "$url/api/login" -SessionVariable 'Session' -Method Post -Body $body -ContentType "application/json"
+
+    # Get and save the mission details from the server - file would be mission.json (as a JSON file)
+Invoke-RestMethod -Uri "$url/api/missions" -WebSession $Session -Method Get -OutFile "$md\mission.json"
+
+    # Get and save the obstacle details from the server - file would be obstacles.json (as a JSON file)
+Invoke-RestMethod -Uri "$url/api/obstacles" -WebSession $Session -Method Get -OutFile "$md\obstacles.json"
+
+   
+<#
+    NOTE: Files should be named and sent sequentially to the GS. This will ensure they are uploaded in the correct order.
+#>
+
+    # Defines a period of time the loop will run for
+$Timeout = 5400                      ##### Change to greater than total mission time (i.e. >60 mins) #####
+
+    # Starts a stopwatch timer that counts from zero
+$timer = [Diagnostics.Stopwatch]::StartNew()
+
+    # Confirms the while loop is beginning
+"Looking for objects and images..."
+
+    # Creates a new object when at least one file is added to the given folder
+$fsw = New-Object IO.FileSystemWatcher $pd, $filter -Property @{IncludeSubdirectories = $false;NotifyFilter = [IO.NotifyFilters]'FileName, LastWrite'}
+
+    # Registers the object with a specific identifier
+Register-ObjectEvent $fsw Created -SourceIdentifier FileCreated
+
+    # Runs a while loop for the duration of $Timeout
+while (($timer.Elapsed.TotalSeconds -lt $Timeout)) {
+    
+        # Pauses at this point until a file is added to the folder
+    Wait-Event -SourceIdentifier "FileCreated"
+
+        # Finds all of the files in the plane data folder (files to upload)
+    $directoryInfo = Get-ChildItem "$pd" | Measure-Object
+
+        # Loops while there is still a file in the folder
+    while (($directoryInfo.count -gt 0)) {  
+
+            # Defines two boolean values for whether a .json or .jpg file exists in the folder
+        $b1 = Test-Path -Path "$pd\*" -Exclude '.json'
+        $b2 = Test-Path -Path "$pd\*" -Exclude '.jpg'
+     
+            # Determines if there is a json or jpeg file in the folder    
+        if($b1 -eq $true -or $b2 -eq $true) {
+            
+                # Finds all of the items in the specified folder
+            $file = Get-ChildItem -Path "$pd"
+
+                # Finds the name and extension of the first file in the folder
+            $name = $file[0].Name
+            $ext = $file[0].Extension
+
+                # Checks if the file extension of the first file is a json object file
+            If ($ext -eq '.json') {                                                          
+  
+                    # Gets the content from the object file (in any format, preferred .json)
+                $object = Get-Content -Path "$pd\$name"
+  
+                    # Posts the object to the server and returns the object plus ID of the object
+                Invoke-RestMethod -Uri "$url/api/odlcs" -WebSession $Session -Method Post -Body $object -ContentType "application/json" -OutFile "$md\object.json"
+
+                    # Copy the file to another folder/destination
+                Copy-Item -Path "$pd\$name" -Destination "$usbact\"
+
+                    # Move the file to another folder/destination
+                Move-Item -Path "$pd\$name" -Destination "$archive\"
+       
+                    # Print a confirmation message that the file has been successfully sent                                             
+                "Object uploaded."
+
+                    # Updates the number of files in the folder
+                $directoryInfo = Get-ChildItem "$pd" | Measure-Object
+
+            }  else {}
+             
+                # Checks if the file extension of the first file is a jpeg image
+            If ($ext -eq '.jpg') {
+  
+                    # Returns the ID of the object submitted above as a string
+                $data = Get-Content -Path "$md\object.json" | Out-String | ConvertFrom-Json
+                $id = $data.id
+
+                    # Defines the image directory string
+                $image = "$pd\$name"
+  
+                    # Posts the image to the server using the object ID from the json file sent
+                Invoke-RestMethod -Uri "$url/api/odlcs/$id/image" -WebSession $Session -Method Post -InFile $image -ContentType "image/jpeg"
+    
+                    # Copy the file to another folder/destination
+                Copy-Item -Path "$pd\$name" -Destination "$usbact\"
+
+                    # Move the file to another folder/destination
+                Move-Item -Path "$pd\$name" -Destination "$archive\"
+
+                    # Updates the number of files in the folder
+                $directoryInfo = Get-ChildItem "$pd" | Measure-Object
+ 
+            } else {}
+        } else {}
+    }
+
+        # Removes the event so that the code waits until more files are added 
+    Remove-Event -SourceIdentifier "FileCreated"
+
+}
+
+    # Stop the timer to avoid running for an infinite time
+$timer.Stop()
+
+    # Write a confirmation the script has ended
+"Exiting..."
