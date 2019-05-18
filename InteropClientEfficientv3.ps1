@@ -21,28 +21,37 @@ $pd = 'C:\Users\marco\PlaneDataUnzip'    ##### Folder where the unzipped data fr
 $usbact = 'C:\Users\marco\usb1'          ##### Change this location to the 'actionable' USB provided by judges
 $usbnonact = 'C:\Users\marco\usb2'       ##### Change this location to the 'non-actionable' USB
 $archive = 'C:\Users\marco\archive'      ##### Make sure there's an appropriate folder directory for this to go into - local backup
-$url = 'http://10.0.0.84:8000'           ##### DOUBLE CHECK THIS WHEN USING NON-STATIC IP ADDRESS OR DIFFERENT ROUTER/MACHINE
-$filter = "*.*"                          ##### Sets a filter for specific files (not necessary to change from a "wild")
+
+$filter = "*.*"
 $planeid = 1
+$url = Read-Host -Prompt "Input the Interop System IP Address and Port"
+"IP Address Accepted"
+$missionid = Read-Host -Prompt "Input the Mission ID"
+"Mission ID Accepted"
+$username = Read-Host -Prompt "Input your username"
+"Username Received"
+$password = Read-Host -Prompt "Input your password"
+"Password Received"
 
     # Set up the file to send to the server (general authentication)
 $body = @{
 
-    "username"="testuser"           ##### Change username #####
-    "password"="testpass"           ##### Change password #####
+    "username"="$username"
+    "password"="$password"
 
 } | ConvertTo-Json # Converts to object file from default (server only accepts JSON for login)
+
+"Logging on..."
 
     # Send a JSON web request to the login page and create a session variable (effectively the cookie information)
 Invoke-RestMethod -Uri "$url/api/login" -SessionVariable 'Session' -Method Post -Body $body -ContentType "application/json"
 
     # Get and save the mission details from the server - file would be mission.json (as a JSON file)
-Invoke-RestMethod -Uri "$url/api/missions" -WebSession $Session -Method Get -OutFile "$md\mission.json"
+Invoke-RestMethod -Uri "$url/api/missions/$missionid" -WebSession $Session -Method Get -OutFile "$md\mission_data.json"
 
-    # Get and save the obstacle details from the server - file would be obstacles.json (as a JSON file)
-Invoke-RestMethod -Uri "$url/api/obstacles" -WebSession $Session -Method Get -OutFile "$md\obstacles.json"
+"Mission Details Retrieved from Interop Server"
 
-    # Defines a period of time the loop will run for  ##### Change to greater than total mission time (i.e. >60 mins) #####
+    # Defines a period of time the loop will run for
 $Timeout = 5400                     
 
     # Starts a stopwatch timer that counts from zero
@@ -68,7 +77,7 @@ while (($timer.Elapsed.TotalSeconds -lt $Timeout)) {
 
         # Loops while there is still a file in the folder
     while (($directoryInfo.count -gt 0)) {  
-
+       
             # Unzips the folder received from the plane to a separate folder
         Expand-Archive -Path "$zippd\$planeid.zip" -DestinationPath "$pd"
 
@@ -88,9 +97,11 @@ while (($timer.Elapsed.TotalSeconds -lt $Timeout)) {
                     # Finds all of the items in the specified folder
                 $file = Get-ChildItem -Path "$pd"
 
+                $k = 1
+
                     # Finds the name and extension of the first file in the folder
-                $name = $file[0].Name
-                $ext = $file[0].Extension
+                $name = $file[$k].Name
+                $ext = $file[$k].Extension
 
                     # Checks if the file extension of the first file is a json object file
                 If ($ext -eq '.json') {                                                          
@@ -99,7 +110,7 @@ while (($timer.Elapsed.TotalSeconds -lt $Timeout)) {
                     $object = Get-Content -Path "$pd\$name"
   
                         # Posts the object to the server and returns the object plus ID of the object
-                    Invoke-RestMethod -Uri "$url/api/odlcs" -WebSession $Session -Method Post -Body $object -ContentType "application/json" -OutFile "$md\object.json"
+                    Invoke-RestMethod -Uri "$url/api/odlcs" -WebSession $Session -Method Post -Body $object -ContentType "application/json" -OutFile "$md\object_temp_file.json"  
 
                         # Copy the file to another folder/destination
                     Copy-Item -Path "$pd\$name" -Destination "$usbact\"
@@ -113,13 +124,18 @@ while (($timer.Elapsed.TotalSeconds -lt $Timeout)) {
                         # Updates the number of files in the folder
                     $directoryInfo2 = Get-ChildItem "$pd" | Measure-Object
 
+                    $k = $k - 1
+
                 }  else {}
+
+                $name = $file[$k].Name
+                $ext = $file[$k].Extension
              
                     # Checks if the file extension of the first file is a jpeg image
                 If ($ext -eq '.jpg') {
   
                         # Returns the details of the object submitted above as a string
-                    $data = Get-Content -Path "$md\object.json" | Out-String | ConvertFrom-Json
+                    $data = Get-Content -Path "$md\object_temp_file.json" | Out-String | ConvertFrom-Json
 
                         # Returns the ID of the object submitted above
                     $id = $data.id
@@ -129,7 +145,7 @@ while (($timer.Elapsed.TotalSeconds -lt $Timeout)) {
   
                         # Posts the image to the server using the object ID from the json file sent
                     Invoke-RestMethod -Uri "$url/api/odlcs/$id/image" -WebSession $Session -Method Post -InFile $image -ContentType "image/jpeg"
-    
+                    
                         # Copy the file to another folder/destination
                     Copy-Item -Path "$pd\$name" -Destination "$usbact\"
 
