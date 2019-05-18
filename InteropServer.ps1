@@ -14,8 +14,8 @@ To run this script, open Windows PowerShell, type (without quotes) './InteropSer
 
 #>
 
-# Pulls the December 2018 version of the server from the docker hub
-docker pull auvsisuas/interop-server:2018.12
+# Pulls the latest version of the server from the docker hub
+docker pull auvsisuas/interop-server
 
 # Runs the server and publishes it to the localhost on port 8001
 docker run -d --restart=unless-stopped --interactive --tty --publish 8000:80 --name interop-server auvsisuas/interop-server:2018.12
