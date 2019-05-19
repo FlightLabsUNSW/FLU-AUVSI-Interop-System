@@ -21,9 +21,8 @@ $pd = 'C:\Users\marco\PlaneDataUnzip'    ##### Folder where the unzipped data fr
 $usbact = 'C:\Users\marco\usb1'          ##### Change this location to the 'actionable' USB provided by judges
 $usbnonact = 'C:\Users\marco\usb2'       ##### Change this location to the 'non-actionable' USB
 $archive = 'C:\Users\marco\archive'      ##### Make sure there's an appropriate folder directory for this to go into - local backup
-
 $filter = "*.*"
-$planeid = 1
+
 $url = Read-Host -Prompt "Input the Interop System IP Address and Port"
 "IP Address Accepted"
 $missionid = Read-Host -Prompt "Input the Mission ID"
@@ -73,13 +72,17 @@ while (($timer.Elapsed.TotalSeconds -lt $Timeout)) {
     Wait-Event -SourceIdentifier "FileCreated"
 
         # Finds all of the files in the plane data folder (files to upload)
-    $directoryInfo = Get-ChildItem "$zippd" | Measure-Object
+    $directoryInfo = Get-ChildItem -Path "$zippd" | Measure-Object
 
         # Loops while there is still a file in the folder
     while (($directoryInfo.count -gt 0)) {  
        
+        $zipfile = Get-ChildItem -Path "$zippd"
+
+        $planeid = $zipfile[0].Name
+
             # Unzips the folder received from the plane to a separate folder
-        Expand-Archive -Path "$zippd\$planeid.zip" -DestinationPath "$pd"
+        Expand-Archive -Path "$zippd\$planeid" -DestinationPath "$pd"
 
             # Determines how many files were sent from the zip folder
         $directoryInfo2 = Get-ChildItem "$pd" | Measure-Object
@@ -111,15 +114,23 @@ while (($timer.Elapsed.TotalSeconds -lt $Timeout)) {
   
                         # Posts the object to the server and returns the object plus ID of the object
                     Invoke-RestMethod -Uri "$url/api/odlcs" -WebSession $Session -Method Post -Body $object -ContentType "application/json" -OutFile "$md\object_temp_file.json"
+
+                    # Returns the details of the object submitted above as a string
+                    $data = Get-Content -Path "$md\object_temp_file.json" | Out-String | ConvertFrom-Json
+
+                        # Returns the ID of the object submitted above
+                    $id = $data.id
+
+                    Rename-Item -Path "$pd\$name" -NewName "$id.json"
                     
                         # Copy the file to another folder/destination
-                    Copy-Item -Path "$pd\$name" -Destination "$usbact\"
+                    Copy-Item -Path "$pd\$id.json" -Destination "$usbact\"
 
                         # Move the file to another folder/destination
-                    Move-Item -Path "$pd\$name" -Destination "$archive\"
+                    Move-Item -Path "$pd\$id.json" -Destination "$archive\"
 
                         # Shows the object description in notepad
-                    Invoke-Item -Path "$archive\$name"  
+                    Invoke-Item -Path "$archive\$id.json"  
        
                         # Print a confirmation message that the file has been successfully sent                                             
                     "Object uploaded."
@@ -137,26 +148,22 @@ while (($timer.Elapsed.TotalSeconds -lt $Timeout)) {
                     # Checks if the file extension of the first file is a jpeg image
                 If ($ext -eq '.jpg') {
   
-                        # Returns the details of the object submitted above as a string
-                    $data = Get-Content -Path "$md\object_temp_file.json" | Out-String | ConvertFrom-Json
-
-                        # Returns the ID of the object submitted above
-                    $id = $data.id
-
                         # Defines the image directory string
                     $image = "$pd\$name"
   
                         # Posts the image to the server using the object ID from the json file sent
                     Invoke-RestMethod -Uri "$url/api/odlcs/$id/image" -WebSession $Session -Method Post -InFile $image -ContentType "image/jpeg"
+
+                    Rename-Item -Path "$image" -NewName "$id.jpg"
                     
                         # Copy the file to another folder/destination
-                    Copy-Item -Path "$pd\$name" -Destination "$usbact\"
+                    Copy-Item -Path "$pd\$id.jpg" -Destination "$usbact\"
 
                         # Move the file to another folder/destination
-                    Move-Item -Path "$pd\$name" -Destination "$archive\"
+                    Move-Item -Path "$pd\$id.jpg" -Destination "$archive\"
 
                         # Shows the uploaded image using photos
-                    Invoke-Item -Path "$archive\$name"
+                    Invoke-Item -Path "$archive\$id.jpg"
 
                         # Updates the number of files in the folder
                     $directoryInfo2 = Get-ChildItem "$pd" | Measure-Object
@@ -164,8 +171,11 @@ while (($timer.Elapsed.TotalSeconds -lt $Timeout)) {
                 } else {}
             } else {}
         }
+
+        Rename-Item -Path "$zippd\$planeid" -NewName "$id.zip"
+
             # Moves the zip folder to the archive in case it is needed again
-        Move-Item -Path "$zippd\$planeid.zip" -Destination "$archive\"
+        Move-Item -Path "$zippd\$id.zip" -Destination "$archive\"
 
             # Adds 1 to the planeid count to account for the next folder coming in
         $planeid = $planeid + 1
