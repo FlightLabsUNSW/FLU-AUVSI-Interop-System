@@ -110,13 +110,16 @@ while (($timer.Elapsed.TotalSeconds -lt $Timeout)) {
                     $object = Get-Content -Path "$pd\$name"
   
                         # Posts the object to the server and returns the object plus ID of the object
-                    Invoke-RestMethod -Uri "$url/api/odlcs" -WebSession $Session -Method Post -Body $object -ContentType "application/json" -OutFile "$md\object_temp_file.json"  
-
+                    Invoke-RestMethod -Uri "$url/api/odlcs" -WebSession $Session -Method Post -Body $object -ContentType "application/json" -OutFile "$md\object_temp_file.json"
+                    
                         # Copy the file to another folder/destination
                     Copy-Item -Path "$pd\$name" -Destination "$usbact\"
 
                         # Move the file to another folder/destination
                     Move-Item -Path "$pd\$name" -Destination "$archive\"
+
+                        # Shows the object description in notepad
+                    Invoke-Item -Path "$archive\$name"  
        
                         # Print a confirmation message that the file has been successfully sent                                             
                     "Object uploaded."
@@ -151,6 +154,9 @@ while (($timer.Elapsed.TotalSeconds -lt $Timeout)) {
 
                         # Move the file to another folder/destination
                     Move-Item -Path "$pd\$name" -Destination "$archive\"
+
+                        # Shows the uploaded image using photos
+                    Invoke-Item -Path "$archive\$name"
 
                         # Updates the number of files in the folder
                     $directoryInfo2 = Get-ChildItem "$pd" | Measure-Object
