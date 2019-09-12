@@ -1,5 +1,5 @@
 <# 
-AUVSI SUAS Interoperability Client System 2019 (Windows PowerShell)
+AUVSI SUAS Interoperability Team Interface System 2019 (Windows PowerShell)
 
 This code is desgined to be run on Windows OS using Windows PowerShell (or ISE) for interaction
 with the AUVSI SUAS Interop System, including logging in, the download of mission and obstacle details,
@@ -9,12 +9,11 @@ upload telemetry data from the PixHawk continuously (MavProxy Integration).
 NOTE: Any downloaded files should be opened with Notepad for ease of reading
 NOTE 2: This was designed for the 2019 version of the competition, and may have changed since this implementation!
 NOTE 3: If doing any local testing - be sure to run the InteropServer.ps1 file before running this script to get the judging system running.
-NOTE 4: Each ODLC should be sent in a separate (numerically named increasing from 1) zip folder (which in turn contains the respective JSON and JPG files), otherwise this will not work.
+NOTE 4: Each ODLC should be sent in a separate (numerically named increasing from any real number) zip folder (which in turn contains the respective JSON and JPG files), otherwise this will not work.
 
 #>
 
-    # Initialise the required parameters that are used throughout the code - easier changes for IP/file location changes
-
+    # Initialise the required parameters that are used throughout the code
 $md = 'C:\Users\marco\MissionStuff'      ##### Arbitrary folder for mission stuff
 $zippd = 'C:\Users\marco\PlaneData'      ##### Folder which receives the zip folders from the plane
 $pd = 'C:\Users\marco\PlaneDataUnzip'    ##### Folder where the unzipped data from the plane is temporarily processed
@@ -23,6 +22,7 @@ $usbnonact = 'C:\Users\marco\usb2'       ##### Change this location to the 'non-
 $archive = 'C:\Users\marco\archive'      ##### Make sure there's an appropriate folder directory for this to go into - local backup
 $filter = "*.*"
 
+    # Prompt the user to input the interop system address, mission ID, username and password
 $url = Read-Host -Prompt "Input the Interop System IP Address and Port"
 "IP Address Accepted"
 $missionid = Read-Host -Prompt "Input the Mission ID"
