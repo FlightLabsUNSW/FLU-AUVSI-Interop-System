@@ -106,6 +106,14 @@ while (($timer.Elapsed.TotalSeconds -lt $Timeout)) {
                 $name = $file[$k].Name
                 $ext = $file[$k].Extension
 
+                If ($ext -eq '.jpg') {
+
+                $k = 0
+                $name = $file[$k].Name
+                $ext = $file[$k].Extension
+
+                }
+
                     # Checks if the file extension of the first file is a json object file
                 If ($ext -eq '.json') {                                                          
   
@@ -138,7 +146,7 @@ while (($timer.Elapsed.TotalSeconds -lt $Timeout)) {
                         # Updates the number of files in the folder
                     $directoryInfo2 = Get-ChildItem "$pd" | Measure-Object
 
-                    $k = $k - 1
+                    $k = 0
 
                 }  else {}
 
