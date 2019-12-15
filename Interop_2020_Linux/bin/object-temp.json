@@ -1,0 +1,9 @@
+{
+  "id": 33,
+  "mission": 1,
+  "type": "EMERGENT",
+  "latitude": 38.3333,
+  "longitude": -76.3333,
+  "description": "hello world!",
+  "autonomous": false
+}
