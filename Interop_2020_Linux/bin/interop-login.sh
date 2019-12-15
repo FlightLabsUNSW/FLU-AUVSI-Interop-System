@@ -1,7 +1,5 @@
 #!/bin/bash
-# Main Script
 
-# Notes:
 # Welcome to the Flight Labs UNSW Interoperability System Interface, v1.4 on Ubuntu 18.04.
 # This script was developed by Marco Alberto, December 2019.
 # Check the Flight Labs UNSW Interoperability Github (https://www.github.com/
@@ -10,15 +8,12 @@
 # Ensure whole bin file is downloaded and placed in the home directory.
 # Use chmod u+x interop-login.sh if permissions are denied.
 
-: '
-	TO DO:
-	3. documentation and github structure review
-	4. optimise file checking in extracted data folder
-	5. clear or create files required (if they dont automatically when you call the functions)
-'
+
+# Determines the root directory
+user=$(pwd)
 
 # Include functions and information from other scripts
-source /home/marco/bin/functions.sh
+source $user/bin/functions.sh
 
 # Clear command line interface
 clear
@@ -29,33 +24,22 @@ echo "This script was developed by Marco Alberto, December 2019."
 echo "Refer to AUVSI SUAS github (https://www.github.com/auvsi-suas/interop) for more details."
 echo ""
 
-# Set parameters if using set inputs all the time (or for testing)
-#localip="192.168.1.16"
-#port="8000"
-#missionID="1"
-#username="flu"
-#password="flu"
-
 # User inputs for mission parameters for easy use at the competition
 uploadedObjects=0
-echo -n "Enter the IP address and press Enter: " ; 		read localip
-echo -n "Enter the four digit port and press Enter: " ; 	read port
-echo -n "Enter the mission ID number and press Enter: " ; 	read missionID
-echo -n "Enter the username and press Enter: " ; 		read username
-echo -n "Enter the password and press Enter: " ; 		read password
+getParams
 
 # Login messages
 echo "Data was successfully captured by the system, please wait..."
 echo "Logging on..."
 
 # Creation of JSON for login information
-echo {'"username":"'$username'","password":"'$password'"'} > ./bin/body.json
+echo {'"username":"'$username'","password":"'$password'"'} > $user/bin/body.json
 
 # Interop login request and storage of session variable as a cookie
-curl -d @./bin/body.json -H 'Content-Type: application/json' --cookie-jar ./bin/auth.txt http://$localip:$port/api/login
+curl -d @$user/bin/body.json -H 'Content-Type: application/json' --cookie-jar $user/bin/auth.txt http://$localip:$port/api/login
 
 # Request mission details from interop server
-curl -L -b ./bin/auth.txt --output ./bin/mission-details.json http://$localip:$port/api/missions/$missionID
+curl -L -b $user/bin/auth.txt --output $user/bin/mission-details.json http://$localip:$port/api/missions/$missionID
 
 # Loop to ensure a non-infinite runtime (maximum objects is ~30 for AUVSI)
 while [ "$uploadedobjects" != "100" ]
@@ -63,13 +47,13 @@ do
 	echo "Waiting for files in plane-data..."
 		
 	# Wait for a file to be added into the plane-data folder
-	inotifywait -e moved_to /home/marco/bin/plane-data
+	inotifywait -e moved_to $user/bin/plane-data
 
-	# Delay for 2 seconds to ensure all files are in the folder ***** TUNING REQUIRED *****
+	# Delay for 2 seconds to ensure all files are in the folder
 	sleep 2
 
 	# Calculate number of files in the plane-data folder
-	cd bin/plane-data
+	cd $user/bin/plane-data
 	numFiles=$(expr $(find . -maxdepth 1 -type f -name "*.zip" | wc -l))
 	
 	# Loop to run if there are any zip files left in the plane-data folder
@@ -88,7 +72,7 @@ do
 			for json in *.json
 			do
 				# Calls the generalised uploading function				
-				cd /home/marco/bin/plane-data/extracted-data
+				cd $user/bin/plane-data/extracted-data
 				uploadData json $json
 			done	
 			
@@ -96,7 +80,7 @@ do
 			for jpeg in *.jpeg
 			do
 				# Calls the generalised uploading function				
-				cd /home/marco/bin/plane-data/extracted-data
+				cd $user/bin/plane-data/extracted-data
 				uploadData jpeg $jpeg
 			done
 			
@@ -104,20 +88,17 @@ do
 			for png in *.png
 			do
 				# Calls the generalised uploading function
-				cd /home/marco/bin/plane-data/extracted-data
+				cd $user/bin/plane-data/extracted-data
 				uploadData png $png
 			done
 		'
-		
 		# Add one to the uploaded objects sum
 		uploadedObjects=$(expr $uploadedObjects + 1)
 		echo "There have been $uploadedObjects objects uploaded so far."
-
 		done
 		
-		# Calculate the number of files remaining
-		numFiles=$(expr $(find . -maxdepth 1 -type f -name "*.zip" | wc -l))
-		cd 
+	# Calculate the number of files remaining
+	numFiles=$(expr $(find . -maxdepth 1 -type f -name "*.zip" | wc -l)) 
 	done
 done
 
