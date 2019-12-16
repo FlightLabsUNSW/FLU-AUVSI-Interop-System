@@ -10,6 +10,7 @@
 
 
 # Determines the root directory
+cd FLU-AUVSI-Interop-System/Interop-Linux
 user=$(pwd)
 
 # Include functions and information from other scripts
