@@ -4,5 +4,6 @@
   "missionid": 1,
   "port": 8000,
   "username": "flu",
-  "password": "flu"
+  "password": "flu",
+  "deviceip": "192.168.1.16:14550"
 }
