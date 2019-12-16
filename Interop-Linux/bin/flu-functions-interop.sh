@@ -135,7 +135,7 @@ function interopLogin {
 	do
 		nc -i 2 -vz $localip $port
 		serverup=$?
-		sleep 1
+		sleep 2
 	done
 	
 	# Send HTTP POST request for Interop login and store session variable as a cookie

@@ -6,6 +6,8 @@
 # Function for installing required programs
 function setupPrograms {
 
+	# Usage: setupPrograms
+
 	# Install required programs required for startup and setup
 	sudo apt-get install docker
 	sudo apt-get install docker-compose
@@ -23,6 +25,8 @@ function setupPrograms {
 
 # Function for setting up the interop server for the first time
 function setupServer {
+
+	# Usage: setupServer
 
 	# Find the root directory
 	user=$(pwd)
@@ -45,6 +49,8 @@ function setupServer {
 # Function for removing all server containers and information (must be run when server is stopped)
 function removeServer {
 
+	# Usage: removeServer
+
 	# Find the root directory and change to the right directory
 	user=$(pwd)
 	cd $user/interop/server
@@ -57,6 +63,8 @@ function removeServer {
 # Function for upgrading the interop server information to a later docker image
 function upgradeServer {
 
+	# Usage: upgradeServer
+
 	# Find the root directory and change to the right directory
 	user=$(pwd)
 	cd $user/interop/server
@@ -67,6 +75,8 @@ function upgradeServer {
 
 # Function for starting the interop server
 function startServer {
+
+	# Usage: startServer
 
 	# Find the root directory and change to the right directory
 	user=$(pwd)
@@ -80,8 +90,22 @@ function startServer {
 # Function for starting the telemetry stream (requiring user input at the moment)
 function startTelemetryStream {
 	
+	# Usage: startTelemetryStream
+
 	# Find the root directory and change to the right directory
 	user=$(pwd)
+
+	serverup=1
+	echo $serverup
+	
+	# Checks for availability of interop server
+	while [ $serverup -eq 1 ]
+	do
+		nc -i 2 -vz $localip $port
+		serverup=$?
+		sleep 2
+	done
+
 	cd $user/interop/client
 	
 	export info="./tools/interop_cli.py --url http://$localip:$port --username $username --password $password mavlink --device $deviceip"

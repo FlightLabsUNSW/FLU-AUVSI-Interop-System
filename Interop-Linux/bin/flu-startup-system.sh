@@ -15,6 +15,9 @@ setupPrograms
 # Sends the interop client to a new terminal (server requires own terminal)
 gnome-terminal --window -e $user/bin/flu-main-interop.sh
 
+# Sends the telemetry upload system to a new terminal (server requires own terminal)
+gnome-terminal --window -e $user/bin/flu-main-telemetry.sh
+
 # Start interop server
 if [ $1 = "setup" ]
 then
