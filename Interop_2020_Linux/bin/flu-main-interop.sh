@@ -4,7 +4,7 @@
 # This script was developed by Marco Alberto, December 2019.
 # Check the Flight Labs UNSW Interoperability Github (https://www.github.com/
 # Refer to AUVSI SUAS github (https://www.github.com/auvsi-suas/interop) for more details.
-# Activate using ./bin/interop-login.sh from root.
+# Activate using ./bin/flu-main-interop.sh from root.
 # Ensure whole bin file is downloaded and placed in the home directory.
 # Use chmod u+x interop-login.sh if permissions are denied.
 
@@ -13,7 +13,7 @@
 user=$(pwd)
 
 # Include functions and information from other scripts
-source $user/bin/functions.sh
+source $user/bin/flu-functions-interop.sh
 
 # Clear command line interface
 clear
@@ -26,20 +26,9 @@ echo ""
 
 # User inputs for mission parameters for easy use at the competition
 uploadedObjects=0
-getParams
 
-# Login messages
-echo "Data was successfully captured by the system, please wait..."
-echo "Logging on..."
-
-# Creation of JSON for login information
-echo {'"username":"'$username'","password":"'$password'"'} > $user/bin/body.json
-
-# Interop login request and storage of session variable as a cookie
-curl -d @$user/bin/body.json -H 'Content-Type: application/json' --cookie-jar $user/bin/auth.txt http://$localip:$port/api/login
-
-# Request mission details from interop server
-curl -L -b $user/bin/auth.txt --output $user/bin/mission-details.json http://$localip:$port/api/missions/$missionID
+# Calls function to login to Interop Server and retrieve mission details
+interopLogin
 
 # Loop to ensure a non-infinite runtime (maximum objects is ~30 for AUVSI)
 while [ "$uploadedobjects" != "100" ]
@@ -49,7 +38,7 @@ do
 	# Wait for a file to be added into the plane-data folder
 	inotifywait -e moved_to $user/bin/plane-data
 
-	# Delay for 2 seconds to ensure all files are in the folder
+	# Delay for 2 seconds to ensure all files are moved to the folder
 	sleep 2
 
 	# Calculate number of files in the plane-data folder
