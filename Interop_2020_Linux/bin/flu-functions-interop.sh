@@ -108,6 +108,7 @@ function getParams {
 	port=$(cat $user/bin/mission-params.json | jq '.port')
 	username=$(cat $user/bin/mission-params.json | jq -r '.username')
 	password=$(cat $user/bin/mission-params.json | jq -r '.password')
+	deviceip=$(cat $user/bin/mission-params.json | jq -r '.deviceip')
 
 }
 
