@@ -119,14 +119,25 @@ function interopLogin {
 
 	# Call function to get login parameters
 	getParams
-
+	
 	# Login messages
 	echo "Data was successfully captured by the system, please wait..."
 	echo "Logging on..."
-
+	
 	# Creation of JSON for login information
 	echo {'"username":"'$username'","password":"'$password'"'} > $user/bin/body.json
-
+	
+	serverup=1
+	echo $serverup
+	
+	# Checks for availability of interop server
+	while [ $serverup -eq 1 ]
+	do
+		nc -i 2 -vz $localip $port
+		serverup=$?
+		sleep 1
+	done
+	
 	# Send HTTP POST request for Interop login and store session variable as a cookie
 	curl -d @$user/bin/body.json -H 'Content-Type: application/json' --cookie-jar $user/bin/auth.txt http://$localip:$port/api/login
 

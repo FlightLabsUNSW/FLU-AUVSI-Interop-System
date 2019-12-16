@@ -4,7 +4,7 @@
 # Internet connection required for setup, router connection required for startup
 
 # Function for setting up the interop server for the first time
-function setupInteropServer {
+function setupServer {
 
 	# Find the root directory
 	user=$(pwd)
