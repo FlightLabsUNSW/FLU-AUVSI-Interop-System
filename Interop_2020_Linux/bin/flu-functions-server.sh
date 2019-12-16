@@ -3,16 +3,29 @@
 # Marco Alberto, December 2019
 # Internet connection required for setup, router connection required for startup
 
-# Function for setting up the interop server for the first time
-function setupServer {
-
-	# Find the root directory
-	user=$(pwd)
+# Function for installing required programs
+function setupPrograms {
 
 	# Install required programs required for startup and setup
 	sudo apt-get install docker
 	sudo apt-get install docker-compose
 	sudo apt-get install git
+	
+	# Install requirement programs used in scripts
+	sudo apt-get install curl
+	sudo apt-get install inotify-tools
+	sudo apt-get install jq
+	sudo apt-get install zip
+	sudo apt-get install unzip
+	sudo apt-get install nmap
+
+}
+
+# Function for setting up the interop server for the first time
+function setupServer {
+
+	# Find the root directory
+	user=$(pwd)
 
 	# Pull the interop server and client information from the docker image
 	sudo docker pull auvsisuas/interop-server:2019.10
@@ -77,5 +90,6 @@ function startTelemetryStream {
 	sudo docker run --net=host -e "info=$info" --interactive --tty auvsisuas/interop-client
 	
 	# Need to run "$info" without quotes in venv to start the telemetry stream
+	# Trying to work out how to do this automatically...
 	
 }
