@@ -17,6 +17,8 @@ then
 
 	# Sets up and installs interop database 
 	setupServer
+	
+	echo "Please close and reopen the terminal to finish the installation processes."
 
 elif [ $1 = "start" ]
 then
