@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# Git upload/download script
+# Script to manage source control using Git, FLU AUVSI 2020
+# Marco Alberto, December 2019
 
 # Download commands
 if [ $1 = "download" ]
