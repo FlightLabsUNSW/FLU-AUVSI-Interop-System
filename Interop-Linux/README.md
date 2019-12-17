@@ -2,10 +2,10 @@
 Following the successful implementation of the 2019 System at the AUVSI SUAS competition, a new revision of the same system has been developed to optimise the uploading of objects, while also making implementation with the computer vision and Linux ground station considerably easier for the 2020 competition. Once complete, ideally, only one script will be required to be run, which will start the interop interface, interop server (if required for testing) and telemetry upload to the server. As of December 2019, these scripts are still in development.
 
 ## Setup & installation requirements
-
+Description
 
 ## User input requirements
-
+Description
 
 ## Main Script
 Description
