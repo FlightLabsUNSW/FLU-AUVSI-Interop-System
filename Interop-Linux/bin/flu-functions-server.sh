@@ -11,7 +11,6 @@ function setupPrograms {
 	# Install required programs required for startup and setup
 	sudo apt-get install docker
 	sudo apt-get install docker-compose
-	sudo apt-get install git
  	sudo apt-get install python3-dev python3-opencv python3-pip python3-matplotlib python3-lxml python3-yaml
 	sudo apt-get install python-pip 
 	pip install MAVProxy
