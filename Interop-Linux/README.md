@@ -11,6 +11,10 @@ In order to create a local copy of the github repository, run the following line
 
 You should then see the whole file structure in the 'FLU-AUVSI-Interop-System' folder in the home directory, and everything you need for this system is contained in these folders.
 
+In addition to this, you can run the 'git-functions.sh' script as below, which clones the local repository, using "download" as the input parameter for the script.
+
+`./FLU-AUVSI-Interop-System/Interop-Linux/bin/git-functions.sh download`  
+
 It is good practice to do this every time before you start working locally if you are editing files, to ensure you have the latest version.
 
 ## Setup & Installation Requirements
@@ -51,13 +55,17 @@ Description
 ## Source Control
 If you are editing local files, instead of having to copy/paste or reupload files individually, git can be used to add, commit and push files directly to the master branch from local.
 
-`cd FLU-AUVSI-Interop-System/Interop-Linux`  
-`git add -a` **check all these code lines, do not use yet**  
+`cd FLU-AUVSI-Interop-System`  
+`git add Interop-Linux`  
 `git commit`  
 
 A screen will appear, prompting you to add a commit message, please make it concise and descriptive. When you are done, press Ctrl+X, type 'y', then press Enter to confirm the commit. To finish, run:  
 
 `git push`  
+
+Instead of running these four lines individually, the 'git-functions.sh' script can be run again using "upload" as the input parameter.
+
+`./FLU-AUVSI-Interop-System/Interop-Linux/bin/git-functions.sh upload`  
 
 You will be required to log in to push commits to the master branch, so be sure to have access to the FLU github and know your username and password. 
 
