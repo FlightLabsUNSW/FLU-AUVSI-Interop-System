@@ -10,7 +10,10 @@ source $user/bin/flu-functions-interop.sh
 source $user/bin/flu-functions-server.sh
 
 # Installs all programs required 
-setupPrograms
+if [ $1 = "setup" ]
+then
+	setupPrograms
+fi
 
 # Sends the interop client to a new terminal (server requires own terminal)
 gnome-terminal --window -e $user/bin/flu-main-interop.sh

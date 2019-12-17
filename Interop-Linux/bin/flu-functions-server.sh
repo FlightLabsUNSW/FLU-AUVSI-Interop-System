@@ -95,8 +95,11 @@ function startTelemetryStream {
 	# Find the root directory and change to the right directory
 	user=$(pwd)
 
+	# 	
+	mavproxy.py --master=$comPort --out=$deviceip --out=$localip:14551 --out=$localip:14552
+	
+	# Sets default state to server unavailable
 	serverup=1
-	echo $serverup
 	
 	# Checks for availability of interop server
 	while [ $serverup -eq 1 ]
@@ -111,7 +114,7 @@ function startTelemetryStream {
 	export info="./tools/interop_cli.py --url http://$localip:$port --username $username --password $password mavlink --device $deviceip"
 
 	# Runs the interop client in an interactive bash
-	sudo docker run --net=host -e "info=$info" --interactive --tty auvsisuas/interop-client
+	sudo docker run --net=host -e "info=$info" --interactive --tty auvsisuas/interop-client:2019.10
 	
 	# Need to run "$info" without quotes in venv to start the telemetry stream
 	# Trying to work out how to do this automatically...
