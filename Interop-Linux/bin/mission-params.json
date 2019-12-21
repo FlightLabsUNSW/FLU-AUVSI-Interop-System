@@ -5,6 +5,6 @@
   "port": 8000,
   "username": "flu",
   "password": "flu",
-  "deviceip": "192.168.1.16:14550",
+  "deviceip": "192.168.1.16:14551",
   "comport": "/dev/ttyUSB0"
 }

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# MAVProxy starting script
+# Telemetry upload script
 
 # Determines the root directory
 user=$(pwd)/FLU-AUVSI-Interop-System/Interop-Linux
@@ -11,7 +11,4 @@ source $user/bin/flu-functions-server.sh
 
 getParams
 
-cd
-
-# Start mavproxy outputting of telemetry
-mavproxy.py --master=$comport --out=$deviceip --out=$localip:14550
+startServer

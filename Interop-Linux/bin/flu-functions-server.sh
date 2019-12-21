@@ -96,7 +96,10 @@ function startTelemetryStream {
 	
 	# Usage: startTelemetryStream
 
-	# Find the root directory and change to the right directory
+	# Fetches user input parameters	
+	getParams
+
+	# Find the root directory
 	user=$(pwd)
 
 	# Sets default state to server unavailable
@@ -110,6 +113,7 @@ function startTelemetryStream {
 		sleep 2
 	done
 
+	# Change to correct client directory
 	cd $user/interop/client
 	
 	export info="./tools/interop_cli.py --url http://$localip:$port --username $username --password $password mavlink --device $deviceip"
@@ -118,6 +122,5 @@ function startTelemetryStream {
 	sudo docker run --net=host -e "info=$info" --interactive --tty auvsisuas/interop-client:2019.10
 	
 	# Need to run "$info" without quotes in venv to start the telemetry stream
-	# Trying to work out how to do this automatically...
 	
 }
