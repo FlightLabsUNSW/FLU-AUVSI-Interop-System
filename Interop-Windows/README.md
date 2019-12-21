@@ -1,3 +1,5 @@
-The interoperability scripts used in the 2019 AUVSI SUAS competition.
-Scripts run on Windows Powershell, Windows 10.
-Code developed and revised by Marco Alberto, 2019.
+#### Code Notes
+System: Windows-Linux hybrid (Windows 10 & Ubuntu 18.04)
+Language: Powershell
+Developer: Marco Alberto
+Most Recent Update: 20 June 2019
