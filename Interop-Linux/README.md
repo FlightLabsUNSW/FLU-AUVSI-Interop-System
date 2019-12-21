@@ -7,7 +7,7 @@ Following the successful implementation of the 2019 System at the AUVSI SUAS com
 In order to create a local copy of the github repository, run the following lines of code to install git and then clone the repository locally:  
 
 `sudo apt-get install git`  
-`git config --global user.email your_email_here`  
+`git config --global user.email "your_email_here"`  
 `git clone https://github.com/FlightLabsUNSW/FLU-AUVSI-Interop-System.git`  
 
 You should then see the whole file structure in the 'FLU-AUVSI-Interop-System' folder in the home directory, and everything you need for this system is contained in these folders.  
@@ -56,7 +56,7 @@ These scripts contain the main functions associated with the main scripts, and a
 ## File Structure
 The file structure is extremely important, as majority of the locations are hard-coded into the system. Please **DO NOT** change the file structure of the Github unless it has been discussed and changed in the code. All of the main code is in the 'bin' folder, and all of the scripts reside in this folder.  
 
-Within the 'bin' folder, there are three main folders, 'archive', 'plane-data', and 'Test-Data', with their functions described below:  
+Within the 'bin' folder, there are three main folders, 'archive', 'plane-data', and 'test-data', with their functions described below:  
 
 1. **archive** - All files, after being uploaded to the interop server, end up in this folder for easy checking of uploading and verifying correct objects. This folder should be clear of zip, json, jpg, and png files before starting.  
 2. **plane-data** - Folder where the zip folders from the plane will arrive in, and is being watched by the system for the arrival of zip folders.  
@@ -90,30 +90,38 @@ You will be required to log in to push commits to the master branch, so be sure 
 
 ## Dodgy Stuff...
 To make for easier running of everything and requiring no password inputs, follow the instructions on the following link (second answer by jiminikiz):  
+
 https://askubuntu.com/questions/192050/how-to-run-sudo-command-with-no-password  
 
-This is kinda dodgy, but makes testing and startup considerably faster than having to enter the same password multiple times.  
+This is kinda dodgy, and we might look into a less dodgy way which still requires the password but only once at the beginning of the startup script, but this for now makes testing and startup considerably faster than having to enter the same password multiple times.  
 
-## Full System Testing
-Description
+## Full Interop System Use & Testing
+While each of the scripts mentioned above will run independently, the startup script has been developed to make the startup and observation of each process easy and traceable. To start the full FLU Interop System, **INCLUDING** the interop server, run the following lines of code:  
 
-### Startup for Competition Missions
-Description
+`cd FLU-AUVSI-Interop-System/Interop-Linux`  
+`chmod u+x ./bin/flu-startup-system.sh`  
+`./bin/flu-startup-system.sh start`  
 
-### Setup and Starting Interop Server (Judging)
-Description
+For the AUVSI SUAS competition, run the following line instead of the third line above:  
 
-### Accessing the Interop Server (Judging)
-Description
+`./bin/flu-startup-system.sh comp`  
 
-### Adding, Editing and Viewing Mission Details (as a Judge)
-Description
+**NOTE:** Be aware of your IP address and any user inputs, and ensure that these are up to date prior to starting the system - errors galore await you if you forget...  
 
-### Reviewing ODLCs
-Description
+### Interop Server Judging Interface
+For the documentation in the 2019 competition, a YouTube video explaining the interop system was created using a series of screen videos, and can be found at the following link:  
 
-### Viewing Live KMZ/KML Data (to be tested)
-Description
+https://www.youtube.com/watch?v=nwT3D7kThdo  
 
-### Mission Evaluation (Automated, to be tested)
-Description
+Refer to the following timestamps for information on the respective parts of the Interop Server used for judging (this knowledge is good to have but not necessary by any means; most teams at the competition had no idea that they could build the server and test using it...):  
+
+- 2:15-2:40 >>> Interop server login  
+- 14:00-16:55 >>> Telemetry receiving screen, ODLCs review, team evaluation, editing interop server data  
+
+Be aware that the server has since been updated with very minor interface changes, so using the current version will look slightly different to the interface seen in the video.  
+
+### Viewing Live KMZ/KML Data
+**Unverified, has not been tested yet on full missions due to time restrictions before AUVSI 2019**  
+
+### Automatic Mission Evaluation
+**Unverified, has not been tested yet on full missions due to time restrictions before AUVSI 2019**  
