@@ -6,8 +6,8 @@
 user=$(pwd)
 
 # Include functions and information from other scripts
-source $user/bin/flu-functions-interop.sh
-source $user/bin/flu-functions-server.sh
+source $user/FLU-AUVSI-Interop-System/Interop-Linux/bin/flu-functions-interop.sh
+source $user/FLU-AUVSI-Interop-System/Interop-Linux/bin/flu-functions-server.sh
 
 # Installs all programs required 
 if [ $1 = "setup" ]
@@ -29,8 +29,11 @@ else
 # Use no input at competition, as server does not need to be run
 
 	# Sends the interop client to a new terminal (requires own terminal)
-	gnome-terminal --window -e $user/bin/flu-main-interop.sh
+	gnome-terminal --window -e $user/FLU-AUVSI-Interop-System/Interop-Linux/bin/flu-main-interop.sh
+
+	# Sends mavproxy telemetry splitting to a new terminal
+	gnome-terminal --window -e $user/FLU-AUVSI-Interop-System/Interop-Linux/bin/flu-main-mavproxy.sh
 
 	# Sends the telemetry upload system to a new terminal (requires own terminal)
-	gnome-terminal --window -e $user/bin/flu-main-telemetry.sh
+	gnome-terminal --window -e $user/FLU-AUVSI-Interop-System/Interop-Linux/bin/flu-main-telemetry.sh
 fi

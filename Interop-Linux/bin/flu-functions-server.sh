@@ -99,9 +99,6 @@ function startTelemetryStream {
 	# Find the root directory and change to the right directory
 	user=$(pwd)
 
-	# 	
-	mavproxy.py --master=$comPort --out=$deviceip --out=$localip:14551 --out=$localip:14552
-	
 	# Sets default state to server unavailable
 	serverup=1
 	
