@@ -127,7 +127,7 @@ Be aware that the server has since been updated with very minor interface change
 **Unverified, has not been tested yet on full missions due to time restrictions before AUVSI 2019**  
 
 #### Code Notes
-System: Linux (Ubuntu 18.04)
-Language: Shell
-Developer: Marco Alberto
-Most Recent Update: 21 December 2019
+System: Linux (Ubuntu 18.04)  
+Language: Shell  
+Developer: Marco Alberto  
+Most Recent Update: 21 December 2019  
