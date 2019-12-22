@@ -8,7 +8,7 @@ In order to create a local copy of the github repository, run the following line
 
 `sudo apt-get install git`  
 `git config --global user.email "your_email_here"`  
-`git clone https://github.com/FlightLabsUNSW/FLU-AUVSI-Interop-System.git`  
+`git pull https://github.com/FlightLabsUNSW/FLU-AUVSI-Interop-System.git`  
 
 You should then see the whole file structure in the 'FLU-AUVSI-Interop-System' folder in the home directory, and everything you need for this system is contained in these folders.  
 
@@ -19,7 +19,7 @@ In addition to this, you can run the 'git-functions.sh' script as below, which c
 It is good practice to do this every time before you start working locally if you are editing files, to ensure you have the latest version.  
 
 ## Setup & Installation Requirements
-For ease of installation and setup on different computers, a startup/setup script has been developed, the 'flu-startup-system.sh' file. To be able to run the startup script, run the following lines of code from the root:  
+For ease of installation and setup on different computers, a startup/setup script has been developed, the 'flu-startup-system.sh' file. To be able to run the startup script, run the following lines of code:  
 
 `cd FLU-AUVSI-Interop-System/Interop-Linux`  
 `chmod u+x ./bin/flu-startup-system.sh`  

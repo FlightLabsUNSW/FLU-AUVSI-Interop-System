@@ -7,8 +7,8 @@
 if [ $1 = "download" ]
 then
 
-	# Clone github repo locally
-	 git clone https://github.com/FlightLabsUNSW/FLU-AUVSI-Interop-System
+	# Update or download the github repo
+	 git pull https://github.com/FlightLabsUNSW/FLU-AUVSI-Interop-System
 
 fi 
 
