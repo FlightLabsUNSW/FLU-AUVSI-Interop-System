@@ -6,9 +6,11 @@
 # Download commands
 if [ $1 = "download" ]
 then
+	# Change to root interop system folder
+	cd FLU-AUVSI-Interop-System
 
 	# Update or download the github repo
-	 git pull https://github.com/FlightLabsUNSW/FLU-AUVSI-Interop-System
+	 git pull https://github.com/FlightLabsUNSW/FLU-AUVSI-Interop-System.git
 
 fi 
 

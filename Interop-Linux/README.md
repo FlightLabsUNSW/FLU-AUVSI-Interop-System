@@ -4,17 +4,20 @@ Following the successful implementation of the 2019 System at the AUVSI SUAS com
 **NOTE: These files, commands, scripts and functions will only run on a Linux-based operating system, and have been tested on Ubuntu 18.04.**  
 
 ## Downloading the Interop System Code
-In order to create a local copy of the github repository, run the following lines of code to install git and then clone the repository locally:  
+In order to create a local copy of the github repository, run the following lines of code to install git and then create a copy of the repository locally:  
 
 `sudo apt-get install git`  
 `git config --global user.email "your_email_here"`  
-`git pull https://github.com/FlightLabsUNSW/FLU-AUVSI-Interop-System.git`  
+`git clone https://github.com/FlightLabsUNSW/FLU-AUVSI-Interop-System.git`  
 
 You should then see the whole file structure in the 'FLU-AUVSI-Interop-System' folder in the home directory, and everything you need for this system is contained in these folders.  
 
-In addition to this, you can run the 'git-functions.sh' script as below, which clones the local repository, using "download" as the input parameter for the script.  
+In addition to this, you can run the 'git-functions.sh' script as below, which updates the local repository from the master, using "download" as the input parameter for the script.  
 
 `./FLU-AUVSI-Interop-System/Interop-Linux/bin/git-functions.sh download`  
+OR (both lines)  
+`cd FLU-AUVSI-Interop-System`  
+`git pull https://github.com/FlightLabsUNSW/FLU-AUVSI-Interop-System.git`
 
 It is good practice to do this every time before you start working locally if you are editing files, to ensure you have the latest version.  
 
