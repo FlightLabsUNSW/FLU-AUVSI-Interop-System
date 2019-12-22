@@ -3,8 +3,16 @@
 # Script to manage source control using Git, FLU AUVSI 2020
 # Marco Alberto, December 2019
 
+# Setup commands
+if [ $1 = "setup" ]
+then
+	sudo apt-get install git
+	echo "Please input your email associated with your Github account" ; read email
+	git config --global user.email $email
+	git clone https://github.com/FlightLabsUNSW/FLU-AUVSI-Interop-System.git
+
 # Download commands
-if [ $1 = "download" ]
+elif [ $1 = "download" ]
 then
 	# Change to root interop system folder
 	cd FLU-AUVSI-Interop-System
@@ -12,10 +20,8 @@ then
 	# Update or download the github repo
 	 git pull https://github.com/FlightLabsUNSW/FLU-AUVSI-Interop-System.git
 
-fi 
-
 # Upload commands
-if [ $1 = "upload" ]
+elif [ $1 = "upload" ]
 then
 	# Change to root interop system folder
 	cd FLU-AUVSI-Interop-System
