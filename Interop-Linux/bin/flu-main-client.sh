@@ -7,16 +7,15 @@
 	# Dockerfile, hello-world.sh are in the /interop/client directory!!! 
 # Make sure telemetry upload works running the interop_cli.py script in hello-world.sh before messing about with directory changes
 
-# Change to interop directory
+# Change to root directory
 cd
-cd interop
 
 # Stops and removes any existing container created
 sudo docker stop flu-cli
 sudo docker rm flu-cli
 
 # Build the docker image
-sudo docker build -t flu-client --label flu-client -f client/Dockerfile .
+sudo docker build -t flu-client --label flu-client -f interop/client/Dockerfile .
 
 # Filter the docker images for the client image
 imageid=$(sudo docker images --filter "label=flu-client" --format "{{.ID}}")
@@ -30,5 +29,5 @@ sudo docker run -d -it --name flu-cli $imageid
 sudo docker start flu-cli
 
 # Execute bash script inside the container to start telemetry stream
-sudo docker exec flu-cli ./client/hello-world.sh
+sudo docker exec flu-cli ./interop/client/hello-world.sh
 	# update path and filename for telem stream
