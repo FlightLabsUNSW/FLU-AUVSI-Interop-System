@@ -8,7 +8,7 @@
 # Stops and removes any existing container created
 sudo docker stop flu-cli
 sudo docker rm flu-cli
-sudo docker rmi flu-client
+#sudo docker rmi flu-client
 
 # Build the docker image
 sudo docker build -t flu-client --label flu-client -f ./bin/Dockerfile .
