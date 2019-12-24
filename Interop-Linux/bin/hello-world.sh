@@ -1,5 +1,12 @@
 #!/bin/bash
 
-#test
+#test - getting there... only this file to fix
 
-xdg-open "http://localhost:8000"
+# Add other files for reference
+source ./bin/flu-functions-interop.sh
+source ./bin/flu-functions-server.sh
+
+# Fetches user input parameters	
+getParams
+
+./interop/client/tools/interop_cli.py --url http://$localip:$port --username $username --password $password mavlink --device $deviceip
