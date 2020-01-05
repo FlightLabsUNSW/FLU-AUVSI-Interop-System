@@ -29,7 +29,7 @@ then
 fi
 
 # Code Notes
-System: Linux (Ubuntu 18.04)  
-Language: Shell  
-Developer: Marco Alberto  
-Most Recent Update: 5 January 2020  
+# System: Linux (Ubuntu 18.04)  
+# Language: Shell  
+# Developer: Marco Alberto  
+# Most Recent Update: 5 January 2020  
