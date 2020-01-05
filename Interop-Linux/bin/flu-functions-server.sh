@@ -1,6 +1,5 @@
 #!/bin/bash
 # Server setup and startup functions, FLU AUVSI SUAS
-# Marco Alberto, December 2019
 # Internet connection required for setup, router connection required for startup
 
 # Function for installing required programs
@@ -9,21 +8,21 @@ function setupPrograms {
 	# Usage: setupPrograms
 
 	# Install required programs required for startup and setup
-	sudo apt-get install docker
-	sudo apt-get install docker-compose
- 	sudo apt-get install python3-dev python3-opencv python3-pip python3-matplotlib python3-lxml python3-yaml
-	sudo apt-get install python-pip 
-	pip install MAVProxy
+	sudo apt-get -y install docker
+	sudo apt-get -y install docker-compose
+ 	sudo apt-get -y install python3-dev python3-opencv python3-pip python3-matplotlib python3-lxml python3-yaml
+	sudo apt-get -y install python-pip 
+	pip install -y MAVProxy
 	echo "export PATH=$PATH:$HOME/.local/bin" >> ~/.bashrc
 	sudo adduser marco dialout
 
 	# Install requirement programs used in scripts
-	sudo apt-get install curl
-	sudo apt-get install inotify-tools
-	sudo apt-get install jq
-	sudo apt-get install zip
-	sudo apt-get install unzip
-	sudo apt-get install nmap
+	sudo apt-get -y install curl
+	sudo apt-get -y install inotify-tools
+	sudo apt-get -y install jq
+	sudo apt-get -y install zip
+	sudo apt-get -y install unzip
+	sudo apt-get -y install nmap
 
 }
 
@@ -124,3 +123,9 @@ function startTelemetryStream {
 	# Need to run "$info" without quotes in venv to start the telemetry stream
 	
 }
+
+# Code Notes
+# System: Linux (Ubuntu 18.04)
+# Language: Shell
+# Developer: Marco Alberto
+# Most Recent Update: 5 January 2020
