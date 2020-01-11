@@ -5,7 +5,7 @@
 # For permissions errors, run chmod u+x ./FLU-AUVSI-Interop-System/Interop-Linux/bin/flu-tutorial-server.sh
 # Run using ./FLU-AUVSI-Interop-System/Interop-Linux/bin/flu-tutorial-server.sh
 
-user=$(pwd)/FLU-AUVSI-Interop-System/Interop-Linux
+user=$(pwd)
 
 source $user/bin/flu-functions-server.sh
 
@@ -47,4 +47,8 @@ echo "The interop server will now start and run - it can be accessed at http://l
 
 xdg-open http://localhost:8000
 
-echo "Keep following the continuing instructions here to dive deeper into the interop server."
+# Code Notes
+# System: Linux (Ubuntu 18.04)
+# Language: Shell
+# Developer: Marco Alberto
+# Most Recent Update: 11 January 2020

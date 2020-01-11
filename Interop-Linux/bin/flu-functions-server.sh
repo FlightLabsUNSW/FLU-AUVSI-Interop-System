@@ -30,7 +30,7 @@ function setupPrograms {
 function setupServer {
 
 	# Usage: setupServer
-
+        
 	# Find the root directory
 	user=$(pwd)
 
@@ -39,7 +39,6 @@ function setupServer {
 	sudo docker pull auvsisuas/interop-client:2019.10
 	
 	# Clone interop repository and move to the server folder
-	cd $user
 	git clone https://github.com/auvsi-suas/interop.git
 	cd $user/interop/server
 
@@ -120,12 +119,11 @@ function startTelemetryStream {
 	# Runs the interop client in an interactive bash
 	sudo docker run --net=host -e "info=$info" --interactive --tty auvsisuas/interop-client:2019.10
 	
-	# Need to run "$info" without quotes in venv to start the telemetry stream
-	
+	# Need to run "$info" without quotes in venv to start the telemetry
 }
 
 # Code Notes
 # System: Linux (Ubuntu 18.04)
 # Language: Shell
 # Developer: Marco Alberto
-# Most Recent Update: 5 January 2020
+# Most Recent Update: 11 January 2020

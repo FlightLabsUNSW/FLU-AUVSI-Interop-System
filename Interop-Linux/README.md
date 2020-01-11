@@ -1,5 +1,5 @@
 # AUVSI SUAS 2020 FLU Interop Interface
-Following the successful implementation of the 2019 System at the AUVSI SUAS competition, a new revision of the same system has been developed to optimise the uploading of objects, while also making implementation with the computer vision and Linux ground station considerably easier for the 2020 competition. Once complete, ideally, only one script will be required to be run, which will start the interop interface, interop server (if required for testing) and telemetry upload to the server. As of December 2019, these scripts are still in development.  
+Following the successful implementation of the 2019 System at the AUVSI SUAS competition, a new revision of the same system has been developed to optimise the uploading of objects, while also making implementation with the computer vision and Linux ground station considerably easier for the 2020 competition. Once complete, ideally, only one script will be required to be run, which will start the interop interface, interop server (if required for testing) and telemetry upload to the server. As of January 2020, these scripts are almost complete, with minor changes and enhancements required.  
 
 **NOTE: These files, commands, scripts and functions will only run on a Linux-based operating system, and have been tested on Ubuntu 18.04.**  
 
@@ -57,11 +57,15 @@ These scripts contain the main functions associated with the main scripts, and a
 ## File Structure
 The file structure is extremely important, as majority of the locations are hard-coded into the system. Please **DO NOT** change the file structure of the Github unless it has been discussed and changed in the code. All of the main code is in the 'bin' folder, and all of the scripts reside in this folder.  
 
-Within the 'bin' folder, there are three main folders, 'archive', 'plane-data', and 'test-data', with their functions described below:  
+**The interop folder is generated automatically and will be updated whenever you run the setup script. Please do not delte or move this folder otherwise everything breaks (spoken from experience...)**
+
+Within the 'bin' folder, there are three main folders, 'archive', 'plane-data', and 'test-data', with their functions described below. Two other folders 'not-in-use' and 'tutorials' are not used explicitly during the mission but can be otherwise helpful:  
 
 1. **archive** - All files, after being uploaded to the interop server, end up in this folder for easy checking of uploading and verifying correct objects. This folder should be clear of zip, json, jpg, and png files before starting.  
 2. **plane-data** - Folder where the zip folders from the plane will arrive in, and is being watched by the system for the arrival of zip folders.  
 3. **test-data** - Folder for the storage of dummy objects in zip folders, containing a json and jpg file. If you are editing the JSON files in the Test-Data zip folders, be sure to follow the API at the following link: https://github.com/auvsi-suas/interop/blob/master/proto/interop_api.proto  
+4. **tutorials** - Folder containing all of the tutorials to understand the code a bit easier and step through the processes and functions used.  
+5. **not-in-use** - Folder containing the code which is not being used, is still in progress, or is otherwise messy, but may be helpful in future if we decide to tackle some challenges in future.  
 
 ## Debugging
 Most debugging can be done in the command line interface, with reasonable error codes and locations presented in the case of failures in the system. A common error that has been run into so far:  
@@ -131,4 +135,4 @@ Be aware that the server has since been updated with very minor interface change
 System: Linux (Ubuntu 18.04)  
 Language: Shell  
 Developer: Marco Alberto  
-Most Recent Update: 5 January 2020  
+Most Recent Update: 11 January 2020  

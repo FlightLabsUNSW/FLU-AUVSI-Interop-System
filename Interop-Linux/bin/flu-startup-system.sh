@@ -12,6 +12,7 @@ source $user/bin/flu-functions-server.sh
 chmod u+x $user/bin/flu-main-interop.sh
 chmod u+x $user/bin/flu-main-mavproxy.sh
 chmod u+x $user/bin/flu-main-server.sh
+chmod u+x $user/bin/flu-main-client.sh
 
 # Installs all programs required 
 if [ $1 = "setup" ]
@@ -32,13 +33,13 @@ then
 	# Starts the server (stop server using ctrl+C)
 	gnome-terminal --window -- $user/bin/flu-main-server.sh
 
-	# Sends the interop client to a new terminal (requires own terminal)
+	# Sends the interop client to a new terminal
 	gnome-terminal --window -- $user/bin/flu-main-interop.sh
 
-	# Sends mavproxy telemetry splitting to a new terminal (requires own terminal)
+	# Sends mavproxy telemetry splitting to a new terminal
 	gnome-terminal --window -- $user/bin/flu-main-mavproxy.sh
-
-	# Sends the telemetry upload system to the existing terminal (requires own terminal)
+      
+	# Sends the telemetry upload system to the existing terminal
 	startTelemetryStream
 	
 elif [ $1 = "comp" ]
@@ -46,13 +47,13 @@ then
 	# Fetches user input parameters
         getParams
 	
-	# Sends the interop client to a new terminal (requires own terminal)
+	# Sends the interop client to a new terminal
 	gnome-terminal --window -- $user/bin/flu-main-interop.sh
 
-	# Sends mavproxy telemetry splitting to a new terminal (requires own terminal)
+	# Sends mavproxy telemetry splitting to a new terminal
 	gnome-terminal --window -- $user/bin/flu-main-mavproxy.sh
 
-	# Sends the telemetry upload system to the existing terminal (requires own terminal)
+	# Sends the telemetry upload system to the existing terminal
 	startTelemetryStream
 fi
 
@@ -60,4 +61,4 @@ fi
 # System: Linux (Ubuntu 18.04)
 # Language: Shell
 # Developer: Marco Alberto
-# Most Recent Update: 5 January 2020
+# Most Recent Update: 11 January 2020
