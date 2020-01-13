@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-=======
 [submodule "Interop-Linux/interop-flu"]
 	path = Interop-Linux/interop-flu
 	url = https://github.com/FlightLabsUNSW/interop-flu
->>>>>>> 4969f377353058b0e44f318f072ef09924c41ac5
