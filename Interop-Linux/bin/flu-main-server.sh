@@ -13,4 +13,6 @@ getParams
 
 echo "Params received"
 
+setupServer
+
 startServer

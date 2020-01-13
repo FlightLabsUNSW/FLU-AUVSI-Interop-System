@@ -12,7 +12,7 @@ source $user/bin/flu-functions-server.sh
 chmod u+x $user/bin/flu-main-interop.sh
 chmod u+x $user/bin/flu-main-mavproxy.sh
 chmod u+x $user/bin/flu-main-server.sh
-chmod u+x $user/bin/flu-main-client.sh
+# chmod u+x $user/bin/flu-main-client.sh
 
 # Installs all programs required 
 if [ $1 = "setup" ]
@@ -61,4 +61,4 @@ fi
 # System: Linux (Ubuntu 18.04)
 # Language: Shell
 # Developer: Marco Alberto
-# Most Recent Update: 11 January 2020
+# Most Recent Update: 14 January 2020

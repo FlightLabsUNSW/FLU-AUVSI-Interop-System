@@ -23,6 +23,14 @@ function setupPrograms {
 	sudo apt-get -y install zip
 	sudo apt-get -y install unzip
 	sudo apt-get -y install nmap
+	
+	# Install python packages for client
+	sudo pip -y install protobuf
+        sudo pip -y install futures
+        sudo apt -y install protobuf-compiler    
+        cd FLU-AUVSI-Interop-System/Interop-Linux/interop/client
+        sudo python3 setup.py install
+        sudo python setup.py build
 
 }
 
@@ -114,16 +122,12 @@ function startTelemetryStream {
 	# Change to correct client directory
 	cd $user/interop/client
 	
-	export info="./tools/interop_cli.py --url http://$localip:$port --username $username --password $password mavlink --device $deviceip"
+	sudo python interop_cli.py --url http://$localip:$port --username $username --password $password mavlink --device $deviceip
 
-	# Runs the interop client in an interactive bash
-	sudo docker run --net=host -e "info=$info" --interactive --tty auvsisuas/interop-client:2019.10
-	
-	# Need to run "$info" without quotes in venv to start the telemetry
 }
 
 # Code Notes
 # System: Linux (Ubuntu 18.04)
 # Language: Shell
 # Developer: Marco Alberto
-# Most Recent Update: 11 January 2020
+# Most Recent Update: 14 January 2020
