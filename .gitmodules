@@ -1,3 +1,3 @@
-[submodule "Interop-Linux/interop"]
-	path = Interop-Linux/interop
-	url = https://github.com/auvsi-suas/interop
+[submodule "Interop-Linux/interop-flu"]
+	path = Interop-Linux/interop-flu
+	url = https://github.com/FlightLabsUNSw/interop-flu
