@@ -1,29 +1,22 @@
 #!/bin/bash
 
-# Welcome to the Flight Labs UNSW Interoperability System Interface, v1.4 on Ubuntu 18.04.
-# This script was developed by Marco Alberto, December 2019.
-# Check the Flight Labs UNSW Interoperability Github (https://www.github.com/
-# Refer to AUVSI SUAS github (https://www.github.com/auvsi-suas/interop) for more details.
-# Activate using ./bin/flu-main-interop.sh from root.
-# Ensure whole bin file is downloaded and placed in the home directory.
-# Use chmod u+x interop-login.sh if permissions are denied.
-
+# Flight Labs UNSW Interoperability System Interface (Object Upload)
 
 # Determines the root directory
-cd FLU-AUVSI-Interop-System/Interop-Linux
+cd ; cd FLU-AUVSI-Interop-System/Interop-Linux
 user=$(pwd)
 
 # Include functions and information from other scripts
-source $user/bin/flu-functions-interop.sh
+source $user/bin/flu-functions-object.sh
 
 # Clear command line interface
 clear
 
 # Welcome messages
-echo "Welcome to the Flight Labs UNSW Interoperability System Interface, v1.4 on Ubuntu 18.04."
-echo "This script was developed by Marco Alberto, December 2019."
+echo "Welcome to the Flight Labs UNSW Interoperability System Interface, v2.0 on Ubuntu 18.04."
+echo "This script was developed by Marco Alberto."
 echo "Refer to AUVSI SUAS github (https://www.github.com/auvsi-suas/interop) for more details."
-echo ""
+echo
 
 # User inputs for mission parameters for easy use at the competition
 uploadedObjects=0
@@ -34,8 +27,8 @@ interopLogin
 # Loop to ensure a non-infinite runtime (maximum objects is ~30 for AUVSI)
 while [ "$uploadedobjects" != "100" ]
 do
-	echo "Waiting for files in plane-data..."
-		
+	echo "Waiting for files in plane-data folder..."
+
 	# Wait for a file to be added into the plane-data folder
 	inotifywait -e moved_to $user/bin/plane-data
 
@@ -93,3 +86,9 @@ do
 done
 
 echo "Maximum number of objects uploaded, your mission is complete."
+
+# Code Notes
+# System: Linux (Ubuntu 18.04)
+# Language: Shell
+# Developer: Marco Alberto
+# Most Recent Update: 14 January 2020

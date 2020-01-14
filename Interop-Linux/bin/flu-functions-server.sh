@@ -1,43 +1,11 @@
 #!/bin/bash
+
 # Server setup and startup functions, FLU AUVSI SUAS
+
 # Internet connection required for setup, router connection required for startup
 
-# Function for installing required programs
-function setupPrograms {
-
-	# Usage: setupPrograms
-
-	# Install required programs required for startup and setup
-	sudo apt-get -y install docker
-	sudo apt-get -y install docker-compose
- 	sudo apt-get -y install python3-dev python3-opencv python3-pip python3-matplotlib python3-lxml python3-yaml
-	sudo apt-get -y install python-pip 
-	pip install -y MAVProxy
-	echo "export PATH=$PATH:$HOME/.local/bin" >> ~/.bashrc
-	sudo adduser marco dialout
-
-	# Install requirement programs used in scripts
-	sudo apt-get -y install curl
-	sudo apt-get -y install inotify-tools
-	sudo apt-get -y install jq
-	sudo apt-get -y install zip
-	sudo apt-get -y install unzip
-	sudo apt-get -y install nmap
-	
-	# Install python packages for client
-	sudo pip -y install protobuf
-        sudo pip -y install futures
-        sudo apt -y install protobuf-compiler    
-        cd FLU-AUVSI-Interop-System/Interop-Linux/interop/client
-        sudo python3 setup.py install
-        sudo python setup.py build
-
-}
-
-# Function for setting up the interop server for the first time
+# Function for setting up the interop server for the first time (usage: setupServer)
 function setupServer {
-
-	# Usage: setupServer
         
 	# Find the root directory
 	user=$(pwd)
@@ -47,83 +15,19 @@ function setupServer {
 	sudo docker pull auvsisuas/interop-client:2019.10
 	
 	# Clone interop repository and move to the server folder
-	git clone https://github.com/auvsi-suas/interop.git
+        sudo rm -r interop
+	git clone https://github.com/FlightLabsUNSW/interop.git
 	cd $user/interop/server
-
+               
+        
 	# Create and load database and data
 	sudo ./interop-server.sh create_db
 	sudo ./interop-server.sh load_test_data
-
-}
-
-# Function for removing all server containers and information (must be run when server is stopped)
-function removeServer {
-
-	# Usage: removeServer
-
-	# Find the root directory and change to the right directory
-	user=$(pwd)
-	cd $user/interop/server
-	
-	# Remove server data
-	sudo ./interop-server.sh rm_data
-	
-}
-
-# Function for upgrading the interop server information to a later docker image
-function upgradeServer {
-
-	# Usage: upgradeServer
-
-	# Find the root directory and change to the right directory
-	user=$(pwd)
-	cd $user/interop/server
-	
-	# Upgrade server data
-	sudo ./interop-server.sh upgrade
-}
-
-# Function for starting the interop server
-function startServer {
-
-	# Usage: startServer
-
-	# Find the root directory and change to the right directory
-	user=$(pwd)
-	cd $user/interop/server
-	
-	# Turn the interop server on (can be found at http://localhost:8000 or http://youripaddress:8000)
-	sudo ./interop-server.sh up
-
-}
-
-# Function for starting the telemetry stream (requiring user input at the moment)
-function startTelemetryStream {
-	
-	# Usage: startTelemetryStream
-
-	# Fetches user input parameters	
-	getParams
-
-	# Find the root directory
-	user=$(pwd)
-
-	# Sets default state to server unavailable
-	serverup=1
-	
-	# Checks for availability of interop server
-	while [ $serverup -eq 1 ]
-	do
-		nc -i 2 -vz $localip $port
-		serverup=$?
-		sleep 2
-	done
-
-	# Change to correct client directory
-	cd $user/interop/client
-	
-	sudo python interop_cli.py --url http://$localip:$port --username $username --password $password mavlink --device $deviceip
-
+        
+        # Install and build client packages (may throw errors but still work)
+        cd $user/interop/client
+        sudo python3 setup.py install
+        sudo python setup.py build
 }
 
 # Code Notes

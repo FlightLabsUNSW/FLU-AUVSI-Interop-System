@@ -6,8 +6,7 @@
 user=$(pwd)
 
 # Include functions and information from other scripts
-source $user/bin/flu-functions-interop.sh
-source $user/bin/flu-functions-server.sh 
+source $user/bin/flu-functions-object.sh
 
 getParams
 
@@ -20,4 +19,4 @@ mavproxy.py --master=$comport --out=$deviceip --out=$localip:14550
 # System: Linux (Ubuntu 18.04)
 # Language: Shell
 # Developer: Marco Alberto
-# Most Recent Update: 11 January 2020
+# Most Recent Update: 14 January 2020

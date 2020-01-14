@@ -1,18 +1,23 @@
 #!/bin/bash
-# Startup script for all systems, FLU AUVSI 2020
+
+# Startup script for all systems
 
 # Determines the root directory
 user=$(pwd)
 
 # Include functions and information from other scripts
-source $user/bin/flu-functions-interop.sh
+source $user/bin/flu-functions-object.sh
 source $user/bin/flu-functions-server.sh
+source $user/bin/flu-functions-setup.sh
 
 # Change permissions to ensure scripts can be run
-chmod u+x $user/bin/flu-main-interop.sh
+chmod u+x $user/bin/flu-main-object.sh
 chmod u+x $user/bin/flu-main-mavproxy.sh
 chmod u+x $user/bin/flu-main-server.sh
-# chmod u+x $user/bin/flu-main-client.sh
+chmod u+x $user/bin/flu-main-client.sh
+
+# Fetches user input parameters
+getParams
 
 # Installs all programs required 
 if [ $1 = "setup" ]
@@ -27,9 +32,6 @@ then
 
 elif [ $1 = "start" ]
 then
-	# Fetches user input parameters
-        getParams
-	
 	# Starts the server (stop server using ctrl+C)
 	gnome-terminal --window -- $user/bin/flu-main-server.sh
 
@@ -39,22 +41,19 @@ then
 	# Sends mavproxy telemetry splitting to a new terminal
 	gnome-terminal --window -- $user/bin/flu-main-mavproxy.sh
       
-	# Sends the telemetry upload system to the existing terminal
-	startTelemetryStream
+	# Sends the telemetry upload system to a new terminal
+	gnome-terminal --window -- $user/bin/flu-main-client.sh
 	
 elif [ $1 = "comp" ]
 then
-	# Fetches user input parameters
-        getParams
-	
 	# Sends the interop client to a new terminal
 	gnome-terminal --window -- $user/bin/flu-main-interop.sh
 
 	# Sends mavproxy telemetry splitting to a new terminal
 	gnome-terminal --window -- $user/bin/flu-main-mavproxy.sh
 
-	# Sends the telemetry upload system to the existing terminal
-	startTelemetryStream
+	# Sends the telemetry upload system to a new terminal
+	gnome-terminal --window -- $user/bin/flu-main-client.sh
 fi
 
 # Code Notes
