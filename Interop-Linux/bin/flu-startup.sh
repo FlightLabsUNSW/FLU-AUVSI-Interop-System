@@ -33,27 +33,34 @@ then
 elif [ $1 = "start" ]
 then
 	# Starts the server (stop server using ctrl+C)
-	gnome-terminal --window -- $user/bin/flu-main-server.sh
+	gnome-terminal --window -t "Interop Server Terminal" --geometry=78x23+0-0 \
+	-- $user/bin/flu-main-server.sh
 
 	# Sends the interop client to a new terminal
-	gnome-terminal --window -- $user/bin/flu-main-interop.sh
+	gnome-terminal --window -t "Object Upload Terminal" --geometry=78x23+0+0 \
+	-- $user/bin/flu-main-interop.sh
 
 	# Sends mavproxy telemetry splitting to a new terminal
-	gnome-terminal --window -- $user/bin/flu-main-mavproxy.sh
+	gnome-terminal --window -t "MAVProxy Terminal" --geometry=78x23-0-0 \
+	-- $user/bin/flu-main-mavproxy.sh
       
 	# Sends the telemetry upload system to a new terminal
-	gnome-terminal --window -- $user/bin/flu-main-client.sh
+	gnome-terminal --window -t "Telemetry Upload Terminal" --geometry=78x23-0+0 \
+	-- $user/bin/flu-main-client.sh
 	
 elif [ $1 = "comp" ]
 then
 	# Sends the interop client to a new terminal
-	gnome-terminal --window -- $user/bin/flu-main-interop.sh
+	gnome-terminal --window -t "Object Upload Terminal" --geometry=78x23+0+0 \
+	-- $user/bin/flu-main-interop.sh
 
 	# Sends mavproxy telemetry splitting to a new terminal
-	gnome-terminal --window -- $user/bin/flu-main-mavproxy.sh
-
+	gnome-terminal --window -t "MAVProxy Terminal" --geometry=78x23-0-0 \
+	-- $user/bin/flu-main-mavproxy.sh
+      
 	# Sends the telemetry upload system to a new terminal
-	gnome-terminal --window -- $user/bin/flu-main-client.sh
+	gnome-terminal --window -t "Telemetry Upload Terminal" --geometry=78x23-0+0 \
+	-- $user/bin/flu-main-client.sh
 fi
 
 # Code Notes
