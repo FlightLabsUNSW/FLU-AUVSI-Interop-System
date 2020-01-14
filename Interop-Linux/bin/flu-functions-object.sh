@@ -29,11 +29,11 @@ function interopLogin {
 	done
 	
 	# Send HTTP POST request for Interop login and store session variable as a cookie
-	curl -d @$user/bin/body.json -H 'Content-Type: application/json' \
-	--cookie-jar $user/bin/auth.txt http://$localip:$port/api/login
+	curl -d @$user/bin/output-files/body.json -H 'Content-Type: application/json' \
+	--cookie-jar $user/bin/output-files/auth.txt http://$localip:$port/api/login
 
 	# Send HTTP GET request to Interop Server for mission details
-	curl -L -b $user/bin/auth.txt --output $user/bin/mission-details.json \
+	curl -L -b $user/bin/output-files/auth.txt --output $user/bin/output-files/mission-details.json \
 	http://$localip:$port/api/missions/$missionID
 }
 
@@ -78,11 +78,11 @@ function uploadData {
 		cd $user/bin/plane-data/extracted-data
 		
 		# Sends a HTTP POST request and output the returned data to a temp json file
-		curl -L -b $user/bin/auth.txt -H 'Content-Type: application/json' -d "@$fileName.json" \
-		--output $user/bin/object-temp.json http://$localip:$port/api/odlcs
+		curl -L -b $user/bin/output-files/auth.txt -H 'Content-Type: application/json' -d "@$fileName.json" \
+		--output $user/bin/output-files/object-temp.json http://$localip:$port/api/odlcs
 		
 		# Read the ID of the ODLC from the temp file of the object just uploaded and print out confirmation
-		id=$(cat $user/bin/object-temp.json | jq '.id')
+		id=$(cat $user/bin/output-files/object-temp.json | jq '.id')
 		echo $id
 		echo "The ID for the ODLC is $id."
 	
@@ -97,7 +97,7 @@ function uploadData {
 		cd $user/bin/plane-data/extracted-data
 		
 		# Send a HTTP POST request with binary image data
-		curl -L -b $user/bin/auth.txt -H 'Content-Type: image/jpeg' \
+		curl -L -b $user/bin/output-files/auth.txt -H 'Content-Type: image/jpeg' \
 		--data-binary "@$fileName.jpeg" http://$localip:$port/api/odlcs/$id/image
 	
 	elif [ $1 = "png" ] 
@@ -106,7 +106,7 @@ function uploadData {
 		echo "The image file $file will be uploaded"
 		fileName=$( basename $file .png)
 		cd $user/bin/plane-data/extracted-data
-		curl -L -b $user/bin/auth.txt -H 'Content-Type: image/png' \
+		curl -L -b $user/bin/output-files/auth.txt -H 'Content-Type: image/png' \
 		--data-binary "@$fileName.png" http://$localip:$port/api/odlcs/$id/image
 	else
 		# Print out error messages if the input isn't one of the expected values
