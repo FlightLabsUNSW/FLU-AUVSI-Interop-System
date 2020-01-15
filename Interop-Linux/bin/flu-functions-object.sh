@@ -15,7 +15,7 @@ function interopLogin {
 	echo "Logging on..."
 	
 	# Creation of JSON for login information
-	echo {'"username":"'$username'","password":"'$password'"'} > $user/bin/body.json
+	echo {'"username":"'$username'","password":"'$password'"'} > $user/bin/output-files/body.json
 	
 	serverup=1
 	echo $serverup

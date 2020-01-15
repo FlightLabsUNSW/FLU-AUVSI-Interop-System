@@ -18,14 +18,14 @@ function setupPrograms {
 	python-pip \
 	curl \
 	inotify-tools \
-	jq ]
+	jq \
 	zip \
 	unzip \
 	nmap \
 	protobuf-compiler
 	
 	# Install python packages for client
-	sudo pip -y install \
+	sudo pip install \
 	protobuf \
 	futures \
 	MAVProxy

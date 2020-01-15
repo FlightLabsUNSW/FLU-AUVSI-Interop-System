@@ -38,7 +38,7 @@ then
 
 	# Sends the interop client to a new terminal
 	gnome-terminal --window -t "Object Upload Terminal" --geometry=78x23+0+0 \
-	-- $user/bin/flu-main-interop.sh
+	-- $user/bin/flu-main-object.sh
 
 	# Sends mavproxy telemetry splitting to a new terminal
 	gnome-terminal --window -t "MAVProxy Terminal" --geometry=78x23-0-0 \
@@ -52,7 +52,7 @@ elif [ $1 = "comp" ]
 then
 	# Sends the interop client to a new terminal
 	gnome-terminal --window -t "Object Upload Terminal" --geometry=78x23+0+0 \
-	-- $user/bin/flu-main-interop.sh
+	-- $user/bin/flu-main-object.sh
 
 	# Sends mavproxy telemetry splitting to a new terminal
 	gnome-terminal --window -t "MAVProxy Terminal" --geometry=78x23-0-0 \

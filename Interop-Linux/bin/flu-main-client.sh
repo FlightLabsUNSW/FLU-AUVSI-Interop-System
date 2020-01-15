@@ -6,7 +6,7 @@
 user=$(pwd)
 
 # Include functions and information from other scripts
-source $user/bin/flu-functions-interop.sh
+source $user/bin/flu-functions-object.sh
 
 # Fetches user input parameters	
 getParams
