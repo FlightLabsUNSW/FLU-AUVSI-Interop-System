@@ -1,5 +1,5 @@
 # AUVSI SUAS 2020 FLU Interop Interface
-Following the successful implementation of the 2019 System at the AUVSI SUAS competition, a new revision of the same system has been developed to optimise the uploading of objects, while also making implementation with the computer vision and Linux ground station considerably easier for the 2020 competition. Once complete, ideally, only one script will be required to be run, which will start the interop interface, interop server (if required for testing) and telemetry upload to the server. As of January 2020, these scripts are almost complete, with minor changes and enhancements required.  
+Following the successful implementation of the 2019 System at the AUVSI SUAS competition, a new revision of the same system has been developed to optimise the uploading of objects, while also making implementation with the computer vision and Linux ground station considerably easier for the 2020 competition. Once complete, ideally, only one script will be required to be run, which will start the interop interface, interop server (if required for testing) and telemetry upload to the server. As of January 2020, these scripts are almost complete, with minor changes and enhancements required. This README is NOT up to date with the most recent changes, this will be done shortly.  
 
 **NOTE: These files, commands, scripts and functions will only run on a Linux-based operating system, and have been tested on Ubuntu 18.04.**  
 
@@ -112,6 +112,10 @@ For the AUVSI SUAS competition, run the following line instead of the third line
 `./bin/flu-startup-system.sh comp`  
 
 **NOTE:** Be aware of your IP address and any user inputs, and ensure that these are up to date prior to starting the system - errors galore await you if you forget...  
+
+**Add this in**
+https://docs.qgroundcontrol.com/en/getting_started/download_and_install.html
+Reorder priority information about setup and startup before other garbage
 
 ### Interop Server Judging Interface
 For the documentation in the 2019 competition, a YouTube video explaining the interop system was created using a series of screen videos, and can be found at the following link:  

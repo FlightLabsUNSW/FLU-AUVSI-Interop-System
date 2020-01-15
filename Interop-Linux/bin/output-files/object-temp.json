@@ -1,9 +1,13 @@
 {
-  "id": 33,
+  "id": 12,
   "mission": 1,
-  "type": "EMERGENT",
-  "latitude": 38.3333,
-  "longitude": -76.3333,
-  "description": "hello world!",
-  "autonomous": false
+  "type": "STANDARD",
+  "latitude": 38.145103,
+  "longitude": -76.427856,
+  "orientation": "N",
+  "shape": "SEMICIRCLE",
+  "alphanumeric": "A",
+  "shapeColor": "WHITE",
+  "alphanumericColor": "BLACK",
+  "autonomous": true
 }

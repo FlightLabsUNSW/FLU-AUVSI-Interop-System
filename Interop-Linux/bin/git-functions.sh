@@ -15,10 +15,11 @@ then
 elif [ $1 = "upload" ]
 then
 	# Change to root interop system folder
-	cd FLU-AUVSI-Interop-System
+	cd FLU-AUVSI-Interop-System/Interop-Linux
 
-	# Adds the whole Linux folder to staging area for committing
-	git add Interop-Linux
+	# Adds the whole Linux folder (minus interop folder) to staging area for committing
+	git add bin
+	git add README.md
 
 	# Commits changes in Linux folder
 	git commit
