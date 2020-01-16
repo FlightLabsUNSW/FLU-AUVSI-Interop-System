@@ -2,6 +2,8 @@
 
 # Script to manage source control using Git, FLU AUVSI 2020
 
+cd
+
 # Update local code commands
 if [ $1 = "update" ]
 then
@@ -32,4 +34,4 @@ fi
 # System: Linux (Ubuntu 18.04)
 # Language: Shell
 # Developer: Marco Alberto
-# Most Recent Update: 5 January 2020
+# Most Recent Update: 16 January 2020
