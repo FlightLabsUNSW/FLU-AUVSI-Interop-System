@@ -1,54 +1,43 @@
 #!/bin/bash
 
-# Tutorial 1 - Server Setup and Walkthrough
+# Tutorial 1 - Interop Server Startup
 
-# For permissions errors, run chmod u+x ./FLU-AUVSI-Interop-System/Interop-Linux/bin/flu-tutorial-server.sh
-# Run using ./FLU-AUVSI-Interop-System/Interop-Linux/bin/flu-tutorial-server.sh
-
+cd
+cd FLU-AUVSI-Interop-System/Interop-Linux
 user=$(pwd)
 
-source $user/bin/flu-functions-server.sh
-
 echo "Welcome to the FLU Interop System Tutorials!"
-echo "In this tutorial, we will be learning about setting up the interop server and then you can explore the server."
-echo 
-echo "First, have you installed all the programs using the flu-startup-systems.sh script (y/n)?"
+sleep 2 ; echo
+echo "This is Tutorial 1 in the FLU Interop System series."
+sleep 2 ; echo
+echo "In this tutorial, we will be setting up the interop server and then you can explore the server."
+sleep 2 ; echo
+echo "The interop server must be run in a separate terminal, as it is a continuous process."
+echo "It can be stopped by using 'Ctrl+C', and should always be stopped using this method."
+sleep 2 ; echo
+echo "The interop server will now start and run. You may need to enter your sudo password." 
 
-read programsSetup
+gnome-terminal --window -- title "Interop Server Terminal" --geometry=78x23+0-0 -- $user/bin/flu-main-server.sh
 
-if [ $programsSetup = "y" ]
-then
-	echo "Thank you!"
-
-elif [ $programsSetup = "n" ]
-then
-	echo "Programs will now be installed automatically using those scripts."
-	setupPrograms
-	setupServer
-	echo "Please restart your device and then re-run this script with a 'y' input."
-	echo "If you are interested in the programs installed, have a look at the 'flu-functions-server.sh' script for more details. "
-
-else
-	echo "Please input either 'y' or 'n'"
-	exit
-
-fi
-
-echo "Now with all the prerequisite software installed, the interop server can be run."
-echo "The interop server must be run in a separate terminal, as it is a continuous process. It can be stopped by closing the terminal or using 'Ctrl+C'."
-echo
-echo "Starting interop server..."
-
-gnome-terminal --window -- $user/bin/flu-main-server.sh
-
-sleep 5
-
-echo "The interop server will now start and run - it can be accessed at http://localhost:8000. Opening in your default web browser now..."
+sleep 10 ; echo
+echo "It can be accessed at http://localhost:8000. Opening in your default web browser now..."
 
 xdg-open http://localhost:8000
+
+sleep 10 ; echo
+echo "Now feel free to explore the interop server, using the login details below:"
+echo "username: testadmin" 
+echo "password: testpass"
+sleep 5 ; echo
+echo "For more detailed information on the interop server, refer to the Github README found in the Interop-Linux folder."
+sleep 2 ; echo
+echo "If you have encountered any errors, please re-run the flu-setup.sh file. If these errors persist, contact Marco."
+sleep 2 ; echo
+echo "This tutorial is now finished! This terminal will close in 60 seconds."
+sleep 60
 
 # Code Notes
 # System: Linux (Ubuntu 18.04)
 # Language: Shell
 # Developer: Marco Alberto
-# Most Recent Update: 11 January 2020
+# Most Recent Update: 16 January 2020
